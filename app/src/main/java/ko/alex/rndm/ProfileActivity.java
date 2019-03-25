@@ -70,10 +70,37 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadUserInformation();
 
+        //https://firebase.google.com/docs/auth/android/manage-users
+        //TODO: Working on user profiles; can i get a toast to show a user's data?
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String name = user.getDisplayName();
+        final String email = user.getEmail();
+        final String uid = user.getUid();
+        EditText enteredName = findViewById(R.id.editTextDisplayName);
+        final String enteredNameString = enteredName.getText().toString();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            // Name, email address, and profile photo Url
+//            String name = user.getDisplayName();
+//            String email = user.getEmail();
+//            Uri photoUrl = user.getPhotoUrl();
+//
+//            // Check if user's email is verified
+//            boolean emailVerified = user.isEmailVerified();
+//
+//            // The user's ID, unique to the Firebase project. Do NOT use this value to
+//            // authenticate with your backend server, if you have one. Use
+//            // FirebaseUser.getIdToken() instead.
+//            String uid = user.getUid();
+//        }
+
+        //I like this way of setting an on click listener
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveUserInformation();
+                //https://firebase.google.com/docs/auth/android/manage-users
+                Toast.makeText(getApplicationContext(), "User info: \n" + "Name: " + name + "\nEmail: " + email + "\nUID: " + uid + "\nEntered name: " + enteredNameString, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -187,7 +214,6 @@ public class ProfileActivity extends AppCompatActivity {
                             //https://stackoverflow.com/questions/50554548/error-cannot-find-symbol-method-getdownloadurl-of-type-com-google-firebase-st
                             //Old way:
                             //profileImageUrl = taskSnapshot.getDownloadUrl().toString();
-                            //TODO: Figure out how to fix this error
                             profileImageUrl = downloadUrl.toString();
                         }
                     })
