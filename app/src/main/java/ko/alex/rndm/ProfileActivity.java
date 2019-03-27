@@ -70,14 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadUserInformation();
 
-        //https://firebase.google.com/docs/auth/android/manage-users
-        //TODO: Working on user profiles; can i get a toast to show a user's data?
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String name = user.getDisplayName();
-        final String email = user.getEmail();
-        final String uid = user.getUid();
-        EditText enteredName = findViewById(R.id.editTextDisplayName);
-        final String enteredNameString = enteredName.getText().toString();
+
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        if (user != null) {
 //            // Name, email address, and profile photo Url
@@ -94,11 +87,19 @@ public class ProfileActivity extends AppCompatActivity {
 //            String uid = user.getUid();
 //        }
 
+
         //I like this way of setting an on click listener
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveUserInformation();
+                //https://firebase.google.com/docs/auth/android/manage-users
+                //TODO: Working on user profiles; can i get a toast to show a user's data?
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final String name = user.getDisplayName();
+                final String email = user.getEmail();
+                final String uid = user.getUid();
+                final String enteredNameString = editText.getText().toString();
                 //https://firebase.google.com/docs/auth/android/manage-users
                 Toast.makeText(getApplicationContext(), "User info: \n" + "Name: " + name + "\nEmail: " + email + "\nUID: " + uid + "\nEntered name: " + enteredNameString, Toast.LENGTH_SHORT).show();
             }
@@ -151,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void saveUserInformation() {
-
 
         String displayName = editText.getText().toString();
 
@@ -231,26 +231,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menuLogout:
-
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
-
                 break;
         }
-
         return true;
     }
 
